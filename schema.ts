@@ -1,5 +1,4 @@
 import { integer, varchar, pgTable, serial, text, timestamp, jsonb, boolean } from 'drizzle-orm/pg-core'
-// Remove this line; `describe` from 'node:test' is not needed in your schema definition file.
 
 export const Users = pgTable('users', {
     id: serial('id').primaryKey(),
@@ -23,7 +22,7 @@ export const Reports = pgTable('reports', {
 
 export const Rewards = pgTable('rewards', {
     id: serial('id').primaryKey(),
-    userId: integer('user_id').refernces(() => Users.id).notNull(),
+    userId: integer('user_id').references(() => Users.id).notNull(),
     points: integer('points').notNull().default(0),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
@@ -35,15 +34,15 @@ export const Rewards = pgTable('rewards', {
 
 export const CollectedWastes = pgTable('collectorwaste', {
 id: serial('id').primaryKey(),
-reportId: integer('report_id').refernces(() => Reports.id).notNull(),
-collectorId: integer('collector_id').refernces(() => Users.id).notNull(),
+reportId: integer('report_id').references(() => Reports.id).notNull(),
+collectorId: integer('collector_id').references(() => Users.id).notNull(),
 collectionDate: timestamp('collection_date').notNull(),
 status: varchar('status', {length: 255}).notNull().default('collected')
 })
 
 export const Notifications = pgTable('notifications',{
     id: serial('id').primaryKey(),
-    userId: integer('user_id').refernces(() => Users.id).notNull(),
+    userId: integer('user_id').references(() => Users.id).notNull(),
     message: text('message').notNull(),
     type: varchar('type', {length: 50}).notNull(),
     isRead: boolean('is_read').notNull().default(false),
@@ -52,7 +51,7 @@ export const Notifications = pgTable('notifications',{
 
 export const Transactions = pgTable('transactions', {
     id: serial('id').primaryKey(),
-    userId: integer('user_id').refernces(() => Users.id).notNull(),
+    userId: integer('user_id').references(() => Users.id).notNull(),
     type: varchar('type', {length: 20}).notNull(),
     amount: integer('amount').notNull(),
     description: text('description'),
